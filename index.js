@@ -40,6 +40,8 @@ app.use(express.urlencoded({ extended: false }));
 
 // import routes
 const RegisterRoute = require('./routes/users-routes')
+const ProfileRoute = require('./routes/profile-route')
 
 
 app.use('/api', RegisterRoute);
+app.use('/api', ProfileRoute);

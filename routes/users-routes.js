@@ -1,13 +1,14 @@
 const route = require('express').Router();
 
 // import controllers
-const { RegisterUser } = require('../controllers/users-controller')
+const { RegisterUser, LoginUser } = require('../controllers/users-controller')
 
 
 
 
 // define routes
-route.get('/register', RegisterUser);
+route.post('/register', RegisterUser);
+route.post('/login', LoginUser);
 
 
 module.exports = route;

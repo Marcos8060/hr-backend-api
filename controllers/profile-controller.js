@@ -1,43 +1,63 @@
-const User = require('../models/authentication-model');
-const Profile = require('../models/profile-model');
+const User = require("../models/authentication-model");
+const Profile = require("../models/profile-model");
 
 const getProfileDetails = async (req, res) => {
-    try {
-        // Fetch user with profile details
-        const user = await User.findOne({
-            where: { id: req.user.id },
-            attributes: { exclude: ['password'] },
-            include: [
-                {
-                    model: Profile,
-                    as: 'profile',
-                }
-            ],
-        });
+  try {
+    // Fetch user with profile details
+    const user = await User.findOne({
+      where: { id: req.user.id },
+      attributes: { exclude: ["password"] },
+      include: [
+        {
+          model: Profile,
+          as: "profile",
+        },
+      ],
+    });
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        return res.status(200).json(user);
-    } catch (error) {
-        return res.status(500).json({ message: error.message });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };
 
-const createProfile = async(req,res) => {
-    try {
-        await Profile.create({
-            ...req.body,
-            userId: req.user.id
-        })
-        return res.status(201).json({ message: 'Profile created successfully'})
-    } catch (error) {
-        return res.status(500).json({ message: error.message })
+const createProfile = async (req, res) => {
+  try {
+    await Profile.create({
+      ...req.body,
+      userId: req.user.id,
+    });
+    return res.status(201).json({ message: "Profile created successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const updateProfile = async (req, res) => {
+  try {
+    const [updatedRowsCount] = await Profile.update(
+      {
+        ...req.body,
+      },
+      {
+        where: { userId: req.user.id },
+      }
+    );
+    if (updatedRowsCount === 0) {
+      return res.status(404).json({ message: "Profile not found or not updated" });
     }
-}
+    return res.status(200).json({ message: "Profile updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
-    getProfileDetails,
-    createProfile
+  getProfileDetails,
+  createProfile,
+  updateProfile,
 };

@@ -1,16 +1,16 @@
 const route = require('express').Router();
-const ProtectRoute = require('../protect-route.js/index')
+const ProtectedRoute = require('../protect-route.js/index')
 
 // import controllers
-const { getProfileDetails,createProfile } = require('../controllers/profile-controller')
+const { getProfileDetails,createProfile,updateProfile } = require('../controllers/profile-controller')
 
 
 
 
 // define routes
-route.get('/get-profile', ProtectRoute, getProfileDetails);
-route.post('/create-profile', ProtectRoute, createProfile);
-// route.post('/update-profile', updateProfile);
+route.get('/get-profile', ProtectedRoute, getProfileDetails);
+route.post('/create-profile', ProtectedRoute, createProfile);
+route.put('/update-profile', ProtectedRoute, updateProfile);
 
 
 module.exports = route;

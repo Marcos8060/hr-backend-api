@@ -93,11 +93,11 @@ sequelize
   .sync()
   .then(() => {
     console.log(
-      "User model has been successfully defined and synchronized with the database."
+      "Profile model has been successfully defined and synchronized with the database."
     );
   })
   .catch((error) => {
-    console.error("Unable to sync User model with the database:", error);
+    console.error("Unable to sync Profile model with the database:", error);
   });
 
 module.exports = Profile;

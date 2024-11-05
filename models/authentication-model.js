@@ -40,6 +40,10 @@ const User = sequelize.define(
             validate: {
                 len: [6, 1024]
             }
+        },
+        role: {
+            type: DataTypes.ENUM("user", "admin", "rider"),
+            defaultValue: "user"
         }
     },
     {

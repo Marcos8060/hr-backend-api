@@ -1,5 +1,5 @@
 const route = require('express').Router();
-const ProtectedRoute = require('../protect-route.js/index')
+const ProtectedRoute = require('../middleware/protected-routes')
 
 // import controllers
 const { getProfileDetails,createProfile,updateProfile } = require('../controllers/profile-controller')

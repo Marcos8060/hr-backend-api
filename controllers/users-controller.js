@@ -63,6 +63,7 @@ const LoginUser = async (req, res) => {
       id: user.id,
       email: user.email,
       username: user.username,
+      role: user.role
     },
     process.env.TOKEN_SECRET
   );

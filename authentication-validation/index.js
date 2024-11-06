@@ -5,6 +5,7 @@ const RegisterValidation = (data) => {
     username: Joi.string().min(4).max(20).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
+    role: Joi.string().required()
   });
 
   return schema.validate(data);

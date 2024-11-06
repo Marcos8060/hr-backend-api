@@ -29,6 +29,7 @@ const RegisterUser = async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: hashedPassword,
+    role: req.body.role,
   });
 
   try {
@@ -58,7 +59,6 @@ const LoginUser = async (req, res) => {
     return res.status(400).json({ message: "Invalid password" });
   }
 
-
   //   create and assign a token to the user
   const token = jwt.sign(
     {
@@ -71,25 +71,23 @@ const LoginUser = async (req, res) => {
   );
 
   res.header("Authorization", `Bearer ${token}`).send(token);
-
 };
 
-const fetchAllUsers = async(req, res) => {
+const fetchAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
-      include:[
+      include: [
         {
           model: Profile,
           as: "profile",
-        }
-      ]
+        },
+      ],
     });
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
-
+};
 
 const updateRole = async (req, res) => {
   const { userId, role } = req.body;
@@ -115,10 +113,39 @@ const updateRole = async (req, res) => {
   }
 };
 
+const editUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [updated] = await User.update(req.body, { where: { id } });
+    if (!updated) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "User updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.destroy({ where: { id: id } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   RegisterUser,
   LoginUser,
   updateRole,
   fetchAllUsers,
+  deleteUser,
+  editUser,
 };

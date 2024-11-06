@@ -50,29 +50,33 @@ const Profile = sequelize.define(
         len: [10, 12],
       },
     },
-    address: {
-      type: DataTypes.STRING,
-      unique: true,
+    gender: {
+      type: DataTypes.ENUM("Male", "Female"),
       allowNull: false,
-      validate: {
-        len: [4, 20],
-      },
     },
-    region: {
+    department: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
-      validate: {
-        len: [4, 20],
-      },
     },
-    city: {
+    jobTitle: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
-      validate: {
-        len: [4, 20],
-      },
+    },
+    employmentType: {
+      type: DataTypes.ENUM("Full-time", "Part-time", "Contract"),
+      allowNull: false,
+    },
+    employmentStatus: {
+      type: DataTypes.ENUM("Active", "Inactive", "On Leave"),
+      allowNull: false,
+    },
+    supervisor: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    bankAccount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {

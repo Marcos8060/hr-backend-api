@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require("dotenv");
 const { Client } = require("pg");
+const cors = require('cors');
 
 dotenv.config();
 
@@ -36,6 +37,16 @@ const client = new Client({
 // middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+
+const corsOptions = {
+  origin: 'http://localhost:3001/',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+// Configure CORS middleware
+app.use(cors(corsOptions));
 
 
 // import routes

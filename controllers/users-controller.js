@@ -5,6 +5,7 @@ const {
   RegisterValidation,
   LoginValidation,
 } = require("../authentication-validation/index");
+const Profile = require("../models/profile-model");
 
 const RegisterUser = async (req, res) => {
   // Validate data before processing
@@ -57,13 +58,14 @@ const LoginUser = async (req, res) => {
     return res.status(400).json({ message: "Invalid password" });
   }
 
+
   //   create and assign a token to the user
   const token = jwt.sign(
     {
       id: user.id,
       email: user.email,
       username: user.username,
-      role: user.role
+      role: user.role,
     },
     process.env.TOKEN_SECRET
   );
@@ -72,7 +74,51 @@ const LoginUser = async (req, res) => {
 
 };
 
+const fetchAllUsers = async(req, res) => {
+  try {
+    const users = await User.findAll({
+      include:[
+        {
+          model: Profile,
+          as: "profile",
+        }
+      ]
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+
+const updateRole = async (req, res) => {
+  const { userId, role } = req.body;
+
+  try {
+    // Find the user by ID
+    const user = await User.findByPk(userId);
+
+    // If the user does not exist, return a 404 error
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update the user's role
+    user.role = role;
+    await user.save(); // Save the updated user
+
+    return res.status(200).json({
+      message: `Role updated to ${role} for user ${user.username}`,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   RegisterUser,
-  LoginUser
+  LoginUser,
+  updateRole,
+  fetchAllUsers,
 };

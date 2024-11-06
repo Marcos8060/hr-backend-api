@@ -5,6 +5,7 @@ const {
   RegisterValidation,
   LoginValidation,
 } = require("../authentication-validation/index");
+const Profile = require("../models/profile-model");
 
 const RegisterUser = async (req, res) => {
   // Validate data before processing
@@ -57,13 +58,14 @@ const LoginUser = async (req, res) => {
     return res.status(400).json({ message: "Invalid password" });
   }
 
+
   //   create and assign a token to the user
   const token = jwt.sign(
     {
       id: user.id,
       email: user.email,
       username: user.username,
-      role: user.role
+      role: user.role,
     },
     process.env.TOKEN_SECRET
   );
@@ -74,7 +76,14 @@ const LoginUser = async (req, res) => {
 
 const fetchAllUsers = async(req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      include:[
+        {
+          model: Profile,
+          as: "profile",
+        }
+      ]
+    });
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });

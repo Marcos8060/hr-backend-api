@@ -31,24 +31,17 @@ const Profile = sequelize.define(
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
-      validate: {
-        len: [4, 20],
-      },
+     
     },
     lastName: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
-      validate: {
-        len: [4, 20],
-      },
+      
     },
     phoneNumber: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        len: [10, 12],
-      },
     },
     gender: {
       type: DataTypes.ENUM("Male", "Female"),
@@ -75,7 +68,7 @@ const Profile = sequelize.define(
       allowNull: false,
     },
     bankAccount: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },

@@ -70,7 +70,7 @@ const LoginUser = async (req, res) => {
     process.env.TOKEN_SECRET
   );
 
-  res.header("auth-token", token).send(token);
+  res.header("Authorization", `Bearer ${token}`).send(token);
 
 };
 

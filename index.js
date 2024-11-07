@@ -53,8 +53,10 @@ app.use(cors(corsOptions));
 const RegisterRoute = require('./routes/users-routes')
 const ProfileRoute = require('./routes/profile-route')
 const ProductRoute = require('./routes/product-route')
+const LeaveRoute = require('./routes/leave-route')
 
 
 app.use('/api', RegisterRoute);
 app.use('/api', ProfileRoute);
 app.use('/api', ProductRoute);
+app.use('/api', LeaveRoute);

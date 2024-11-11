@@ -1,9 +1,17 @@
 const Leave = require("../models/leave-model");
 
-
 const getLeaveDetails = async (req, res) => {
   try {
-    const leave = await Leave.findAll()
+    const leave = await Leave.findAll({ where: { userId: req.user.id } });
+    return res.status(200).json(leave);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const fetchAllLeaves = async (req, res) => {
+  try {
+    const leave = await Leave.findAll();
     return res.status(200).json(leave);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -54,5 +62,6 @@ module.exports = {
   getLeaveDetails,
   createLeave,
   updateLeave,
-  deleteLeave
+  deleteLeave,
+  fetchAllLeaves
 };

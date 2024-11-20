@@ -16,8 +16,8 @@ const sequelize = new Sequelize(
 );
 
 // define models
-const JobApplication = sequelize.define(
-  "JobApplication",
+const Application = sequelize.define(
+  "Application",
   {
     jobId: {
       type: DataTypes.INTEGER,
@@ -50,26 +50,26 @@ const JobApplication = sequelize.define(
 );
 
 // Define association with job model
-Job.hasMany(JobApplication, {
-  foreignKey: "jobId",
-  as: "jobApplication",
+Job.hasMany(Application, {
+  foreignKey: "id",
+  as: "applications",
   onDelete: "CASCADE",
 });
-JobApplication.belongsTo(Job, { foreignKey: "jobId" });
+Application.belongsTo(Job, { foreignKey: "id" });
 
 // sync the model with the database
 sequelize
   .sync()
   .then(() => {
     console.log(
-      "JobApplication model has been successfully defined and synchronized with the database."
+      "Application model has been successfully defined and synchronized with the database."
     );
   })
   .catch((error) => {
     console.error(
-      "Unable to sync JobApplication model with the database:",
+      "Unable to sync Application model with the database:",
       error
     );
   });
 
-module.exports = JobApplication;
+module.exports = Application;

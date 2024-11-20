@@ -73,7 +73,10 @@ const Profile = sequelize.define(
     },
     image: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+      validate: {
+        isUrl: true,
+      },
     },
   },
   {

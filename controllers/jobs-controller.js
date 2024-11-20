@@ -1,3 +1,4 @@
+const JobApplication = require("../models/application-model");
 const Job = require("../models/jobs-model");
 
 
@@ -11,9 +12,17 @@ const createJob = async(req,res) => {
     }
 }
 
+
 const fetchJobs = async(req,res) => {
     try {
-        const jobs = await Job.findAll();
+        const jobs = await Job.findAll({
+            include:[
+                {
+                    model: JobApplication,
+                    as: "applications"
+                }
+            ]
+        });
         return res.status(200).json(jobs);
     } catch (error) {
         return res.status(500).json({ message: error.message });

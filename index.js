@@ -55,6 +55,7 @@ const ProfileRoute = require('./routes/profile-route')
 const ProductRoute = require('./routes/product-route')
 const LeaveRoute = require('./routes/leave-route')
 const JobRoute = require('./routes/jobs-route')
+const ApplicationRoute = require('./routes/application-route')
 
 
 
@@ -63,3 +64,4 @@ app.use('/api', ProfileRoute);
 app.use('/api', ProductRoute);
 app.use('/api', LeaveRoute);
 app.use('/api', JobRoute);
+app.use('/api', ApplicationRoute);

@@ -16,57 +16,53 @@ const sequelize = new Sequelize(
 );
 
 // define models
-const Jobs = sequelize.define(
-  "Profile",
+const Job = sequelize.define(
+  "Job",
   {
-    jobTitle: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    shortDescription: {
+    subTitle: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    longDescription: {
+    description: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    expectations: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false,
-        defaultValue: [],
-        validate: {
-          isArray(value) {
-            if (!Array.isArray(value)) {
-              throw new Error('Expectations must be an array.');
-            }
+    task: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false,
+      defaultValue: [],
+      validate: {
+        isArray(value) {
+          if (!Array.isArray(value)) {
+            throw new Error("Tasks must be an array.");
           }
-        }
-      }
+        },
+      },
+    },
+    openings: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
   },
   {
     timestamps: true,
   }
 );
 
-// Define association with user model
-User.hasOne(Profile, {
-  foreignKey: "userId",
-  as: "profile",
-  onDelete: "CASCADE",
-});
-Profile.belongsTo(User, { foreignKey: "userId" });
-
 // sync the model with the database
 sequelize
   .sync()
   .then(() => {
     console.log(
-      "Profile model has been successfully defined and synchronized with the database."
+      "Jobs model has been successfully defined and synchronized with the database."
     );
   })
   .catch((error) => {
-    console.error("Unable to sync Profile model with the database:", error);
+    console.error("Unable to sync Jobs model with the database:", error);
   });
 
-module.exports = Jobs;
+module.exports = Job;

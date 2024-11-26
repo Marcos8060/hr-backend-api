@@ -66,7 +66,7 @@ User.hasOne(Leave, {
   as: "leave",
   onDelete: "CASCADE",
 });
-Leave.belongsTo(User, { foreignKey: "userId" });
+Leave.belongsTo(User, { foreignKey: "userId", as: "applicant" });
 
 // sync the model with the database
 sequelize

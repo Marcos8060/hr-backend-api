@@ -1,3 +1,4 @@
+const User = require("../models/authentication-model");
 const Leave = require("../models/leave-model");
 
 const getLeaveDetails = async (req, res) => {
@@ -11,7 +12,13 @@ const getLeaveDetails = async (req, res) => {
 
 const fetchAllLeaves = async (req, res) => {
   try {
-    const leave = await Leave.findAll();
+    const leave = await Leave.findAll({
+      include: {
+        model: User,
+        as: "applicant",
+        attributes: ["id", "username"],
+      },
+    });
     return res.status(200).json(leave);
   } catch (error) {
     return res.status(500).json({ message: error.message });

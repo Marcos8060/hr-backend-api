@@ -1,25 +1,30 @@
-const Application = require("../models/application-model");
+const Job = require("../models/jobs-model");
+const Application = require('../models/application-model')
 
-// create a new job
 const applyJob = async (req, res) => {
   try {
     // Ensure that a file has been uploaded
     if (!req.file) {
-        return res.status(400).json({ message: "Resume is required" });
-      }
+      return res.status(400).json({ message: "Resume is required" });
+    }
 
-      // Access the file (resume) from req.file
-    const resume = req.file.path;
+    // Validate jobId
+    const jobId = req.body.jobId;
+    const job = await Job.findByPk(jobId); // Check if the job exists
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
 
     // Combine the file path with other form fields
     const applicationData = {
-        jobId: req.body.jobId,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        yearsOfExperience: req.body.yearsOfExperience,
-        resume: resume, // Add the resume field
-      };
+      jobId: jobId,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      yearsOfExperience: req.body.yearsOfExperience,
+      resume: req.file.path, // Use the uploaded file path
+    };
 
+    // Create the application
     await Application.create(applicationData);
     return res.status(201).json({ message: "Application sent successfully" });
   } catch (error) {
@@ -27,6 +32,7 @@ const applyJob = async (req, res) => {
   }
 };
 
+
 module.exports = {
   applyJob,
-};
+}

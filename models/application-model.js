@@ -51,11 +51,11 @@ const Application = sequelize.define(
 
 // Define association with job model
 Job.hasMany(Application, {
-  foreignKey: "id",
+  foreignKey: "jobId",
   as: "applications",
   onDelete: "CASCADE",
 });
-Application.belongsTo(Job, { foreignKey: "id" });
+Application.belongsTo(Job, { foreignKey: "jobId" });
 
 // sync the model with the database
 sequelize

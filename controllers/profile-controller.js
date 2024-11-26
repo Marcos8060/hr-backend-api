@@ -26,6 +26,7 @@ const getProfileDetails = async (req, res) => {
 };
 
 const createProfile = async (req, res) => {
+  console.log("PROFILE_PAYLOAD ",req.body)
   try {
     const imagePath = req.file ? req.file.path : null;
     await Profile.create({
@@ -35,6 +36,7 @@ const createProfile = async (req, res) => {
     });
     return res.status(201).json({ message: "Profile created successfully" });
   } catch (error) {
+    console.error("Error creating profile: ", error);
     return res.status(500).json({ message: error.message });
   }
 };
